@@ -45,26 +45,27 @@ func HttpPut(url, username, password string, data []byte) (*http.Response, error
     return Http(HTTP_METHOD_PUT, url, username, password, data)
 }
 
+func IsValidHttpMethod(method string) bool {
+    return strings.EqualFold(method, HTTP_METHOD_GET) || strings.EqualFold(method, HTTP_METHOD_POST) || strings.EqualFold(method, HTTP_METHOD_PUT) || strings.EqualFold(method, HTTP_METHOD_DELETE)
+}
+
 func Http(method, url, username, password string, data []byte) (*http.Response, error) {
     if !IsValidHttpMethod(method) {
-        errMsg := "fail to send http request, parameter <method> is null."
+        errMsg := "fail to send http request, parameter <method> is illegal."
         fmt.Errorf(errMsg)
         return nil, errors.New(errMsg)
     }
 
     if url == "" {
-        errMsg := "fail to send http request, parameter <url> is null."
+        errMsg := "fail to send http request, parameter <url> is empty."
         fmt.Errorf(errMsg)
         return nil, errors.New(errMsg)
     }
-
-    Logger.Info("send http request, method:" + method + ", url:" + url)
 
     var b io.Reader = nil
 
     if data != nil {
         b = bytes.NewBuffer(data)
-        Logger.Info("send http request, data:" + string(data))
     }
 
     client := &http.Client{}
