@@ -2,10 +2,20 @@ package GoUtils
 
 import (
     "bytes"
+    "fmt"
     "errors"
     "io"
     "io/ioutil"
+    "regexp"
+    "strings"
     "net/http"
+)
+
+const (
+    HTTP_METHOD_GET    = "GET"
+    HTTP_METHOD_POST   = "POST"
+    HTTP_METHOD_DELETE = "DELETE"
+    HTTP_METHOD_PUT    = "PUT"
 )
 
 func IsURL(url string) bool {
