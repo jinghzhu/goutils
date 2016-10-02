@@ -10,11 +10,47 @@ import (
 )
 
 
+// Input: s1 = "test", s2 = "etst"
+// Output: true
+func IsAnagram(s1, s2 string) bool {
+    if len(s1) == 0 && len(s2) == 0 {
+        return true
+    } else if len(s1) == 0 || len(s2) == 0 {
+        return false
+    }
+
+    m := make(map[rune]int)
+    for _, v := range s1 {
+        count, ok := m[v]
+        if !ok {
+            m[v] = 1
+        } else {
+            m[v] = count + 1
+        }
+    }
+    for _, v := range s2 {
+        count, ok := m[v]
+        if !ok || count == 0 {
+            return false
+        } else {
+            m[v] = count - 1
+        }
+    }
+
+    for _, v := range m {
+        if v != 0 {
+            return false
+        }
+    }
+    return true
+}
+
+
 func GenerateToken() string {
     rb := make([]byte, 32)
     _, err := rand.Read(rb)
     if err != nil {
-        Logger.Error(err.Error())
+        fmt.Println(err.Error())
         return ""
     }
     return base64.URLEncoding.EncodeToString(rb)
@@ -25,8 +61,8 @@ func IsVersion(version string) bool {
     versionRegeXp := "\\d+(\\.\\d+){0,2}"
     match, err := regexp.MatchString(versionRegeXp, version)
     if err != nil {
-        Logger.Error(errMsgRegeXp)
-        panic(errMsgRegeXp)
+        fmt.Println(err.Error())
+        panic(err.Error())
     }
     return match
 }
@@ -160,6 +196,22 @@ func Contain(s, substr string) bool {
         }
     }
     return false
+}
+
+
+// Input: []int{1, 2, 3}
+// Output: [1, 2, 3]
+func IntToString(values []int) string {
+    var buffer bytes.Buffer
+    buffer.WriteByte('[')
+    for k, v := range values {
+        if k > 0 {
+            buffer.WriteByte(',')
+        }
+        fmt.Fprintf(&buffer, "%d", v)
+    }
+    buffer.WriteByte(']')
+    return buffer.String()
 }
 
 
