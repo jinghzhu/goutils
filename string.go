@@ -153,6 +153,16 @@ func HasSuffix(s, suf string) bool {
 }
 
 
+func Contain(s, substr string) bool {
+    for i := 0; i < len(s) - len(substr) + 1; i++ {
+        if HasPrefix(s[i:], substr) {
+            return true
+        }
+    }
+    return false
+}
+
+
 // To-Do: need to run performance test between JoinByBuffer and Join
 func JoinByBuffer(strArr []string, sep string) string {
     if len(strArr) == 0 {
