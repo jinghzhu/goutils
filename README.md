@@ -1,3 +1,3 @@
 ## Introduction
 
-This is just a personal repo to writhe some Go packages.
+This is just a personal repo to write some Go helper packages.

@@ -1,15 +1,36 @@
 package goUtils
 
-
 import (
+    "crypto/rand"
+    "encoding/base64"
     "unicode/utf8"
     "bytes"
     "fmt"
+    "regexp"
 )
 
-func Temp() {
-    fmt.Println("temp")
+
+func GenerateToken() string {
+    rb := make([]byte, 32)
+    _, err := rand.Read(rb)
+    if err != nil {
+        Logger.Error(err.Error())
+        return ""
+    }
+    return base64.URLEncoding.EncodeToString(rb)
 }
+
+
+func IsVersion(version string) bool {
+    versionRegeXp := "\\d+(\\.\\d+){0,2}"
+    match, err := regexp.MatchString(versionRegeXp, version)
+    if err != nil {
+        Logger.Error(errMsgRegeXp)
+        panic(errMsgRegeXp)
+    }
+    return match
+}
+
 
 func Compare(a, b string) int {
     if a == b {

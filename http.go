@@ -18,6 +18,17 @@ const (
     HTTP_METHOD_PUT    = "PUT"
 )
 
+func IsEmail(email string) bool {
+    email = strings.TrimSpace(email)
+    errMsgRegeXp := "Error in running regular expression"
+    urlRegeXp := "^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3\\}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$"
+    match, err := regexp.MatchString(urlRegeXp, email)
+    if err != nil {
+        panic(errMsgRegeXp)
+    }
+    return match
+}
+
 func IsURL(url string) bool {
     urlRegeXp := "^((http|https|ftp)\\://)?([a-zA-Z0-9\\.\\-]+(\\:[a-zA-Z0-9\\.&amp;\\$\\-]+)*@)?((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|([a-zA-Z0-9\\-]+\\.)*[a-zA-Z0-9\\-]+\\.[a-zA-Z]{2,4})(\\:[0-9]+)?(/[^/][a-zA-Z0-9\\.\\,\\?\\'\\/\\+&amp;\\$#\\=~_\\-@]*)*$"
     match, err := regexp.MatchString(urlRegeXp, url)

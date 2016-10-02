@@ -4,15 +4,15 @@ import (
         "testing"
 )
 
-// func TestCompare(t *testing.T) {
-//         s1 := ""
-//         s2 := "Shanghai"
-//         s3 := "Paris"
-//         if Compare(s1, s2) {
-//             t.Error("error1")
-//         }
+func TestCompare(t *testing.T) {
+        s1 := ""
+        s2 := "Shanghai"
+        s3 := "Paris"
+        if Compare(s1, s2) {
+            t.Error("error1")
+        }
 
-// }
+}
 
 func TestIndexRune(t *testing.T) {
         s1 := ""
