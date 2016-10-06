@@ -1,6 +1,5 @@
 package goUtils
 
-
 import (
         "testing"
 )

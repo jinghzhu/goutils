@@ -10,12 +10,58 @@ import (
 )
 
 
+func ReverseStrings(strings []string) {
+    for i, j := 0, len(strings) - 1; i < j; i, j = i + 1, j - 1 {
+        strings[i], strings[j] = strings[j], strings[i]
+    }
+}
+
+
+// return a slice holding only the non-empty string
+func NonEmpty(strings []string) []string {
+    count := 0
+    for _, v := range strings {
+        if v != "" {
+            strings[count] = v
+            count++
+        }
+    }
+    return strings[:count]
+}
+
+
+// the same as NonEmpty(). Implemented with slice and not modify original data structure.
+func NonEmptyBySlice(strings []string) []string {
+    newStrings := strings[:0] // 0 length slice
+    for _, v := range strings {
+        if v != "" {
+            newStrings = append(newStrings, v)
+        }
+    }
+    return newStrings
+}
+
+
+// check whether two slices of string type is equal
+func EqualSlice(x, y []string) bool {
+    if len(x) != len(y) {
+        return false
+    }
+    for i := range x {
+        if x[i] != y[i] {
+            return false
+        }
+    }
+    return true
+}
+
+
 // Input: s1 = "test", s2 = "etst"
 // Output: true
 func IsAnagram(s1, s2 string) bool {
     if len(s1) == 0 && len(s2) == 0 {
         return true
-    } else if len(s1) == 0 || len(s2) == 0 {
+    } else if len(s1) == 0 || len(s2) == 0 || len(s1) != len(s2) {
         return false
     }
 
@@ -36,12 +82,12 @@ func IsAnagram(s1, s2 string) bool {
             m[v] = count - 1
         }
     }
-
     for _, v := range m {
         if v != 0 {
             return false
         }
     }
+
     return true
 }
 
