@@ -1,5 +1,6 @@
 package goUtils
 
+
 import (
     "bytes"
     "fmt"
@@ -11,12 +12,40 @@ import (
     "net/http"
 )
 
+
 const (
+    SUCCESS_HTTP_CODE  = 0
     HTTP_METHOD_GET    = "GET"
     HTTP_METHOD_POST   = "POST"
     HTTP_METHOD_DELETE = "DELETE"
     HTTP_METHOD_PUT    = "PUT"
 )
+
+
+func IsResponseSuccess(resp *http.Response) (bool, error) {
+    if resp == nil {
+        errMsg := "Fail to check response msg. Http response is null."
+        fmt.Println(errMsg)
+        return false, errors.New(errMsg)
+    }
+
+    bodyStr, err := ResponseToString(resp)
+    if err != nil {
+        return false, err
+    }
+
+    resJson := Response{}
+    json.Unmarshal([]byte(bodyStr), &resJson)
+
+    if resJson.Code == SUCCESS_HTTP_CODE {
+        return true, nil
+    } else if strings.Contains(resJson.Msg, ALREADY_EXISTS) {
+        return true, nil
+    } else {
+        return false, nil
+    }
+}
+
 
 func IsEmail(email string) bool {
     email = strings.TrimSpace(email)
@@ -28,6 +57,7 @@ func IsEmail(email string) bool {
     }
     return match
 }
+
 
 func IsURL(url string) bool {
     urlRegeXp := "^((http|https|ftp)\\://)?([a-zA-Z0-9\\.\\-]+(\\:[a-zA-Z0-9\\.&amp;\\$\\-]+)*@)?((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|([a-zA-Z0-9\\-]+\\.)*[a-zA-Z0-9\\-]+\\.[a-zA-Z]{2,4})(\\:[0-9]+)?(/[^/][a-zA-Z0-9\\.\\,\\?\\'\\/\\+&amp;\\$#\\=~_\\-@]*)*$"

@@ -17,6 +17,27 @@ func ReverseStrings(strings []string) {
 }
 
 
+func Reverse(s string) string {
+    return ReverseRange(s, 0, len(s) - 1)
+}
+
+
+func ReverseRange(s string, start, end int) string {
+    if len(s) <= 1 || end <= start || end > len(s) || start < 0 || end < 0 {
+        return s
+    }
+
+    sArr := []rune(s)
+    for i, j := start, end; i < j; i++, j-- {
+        var temp rune = sArr[i]
+        sArr[i] = sArr[j]
+        sArr[j] = temp
+    }
+
+    return string(sArr)
+}
+
+
 // return a slice holding only the non-empty string
 func NonEmpty(strings []string) []string {
     count := 0
@@ -96,7 +117,7 @@ func GenerateToken() string {
     rb := make([]byte, 32)
     _, err := rand.Read(rb)
     if err != nil {
-        fmt.Println(err.Error())
+        fmt.Errorf(err)
         return ""
     }
     return base64.URLEncoding.EncodeToString(rb)
@@ -107,7 +128,7 @@ func IsVersion(version string) bool {
     versionRegeXp := "\\d+(\\.\\d+){0,2}"
     match, err := regexp.MatchString(versionRegeXp, version)
     if err != nil {
-        fmt.Println(err.Error())
+        fmt.Errorf(err)
         panic(err.Error())
     }
     return match
