@@ -47,6 +47,7 @@ func NonEmpty(strings []string) []string {
             count++
         }
     }
+    
     return strings[:count]
 }
 
@@ -59,6 +60,7 @@ func NonEmptyBySlice(strings []string) []string {
             newStrings = append(newStrings, v)
         }
     }
+
     return newStrings
 }
 
@@ -73,6 +75,7 @@ func EqualSlice(x, y []string) bool {
             return false
         }
     }
+
     return true
 }
 
@@ -120,6 +123,7 @@ func GenerateToken() string {
         fmt.Errorf(err)
         return ""
     }
+
     return base64.URLEncoding.EncodeToString(rb)
 }
 
@@ -131,6 +135,7 @@ func IsVersion(version string) bool {
         fmt.Errorf(err)
         panic(err.Error())
     }
+
     return match
 }
 
@@ -152,6 +157,7 @@ func IndexByte(s string, b byte) int {
             return index;
         }
     }
+
     return -1
 }
 
@@ -175,6 +181,7 @@ func IndexRune(s string, r rune) int {
             }
         }
     }
+
     return -1
 }
 
@@ -185,6 +192,7 @@ func EqualFoldSimple(s1, s2 string) bool {
     if len(s1) != len(s2) {
         return false
     }
+
     for i := 0; i < len(s1); i++ {
         if s1[i] < s2[i] {
             if s2[i] != s1[i] + 'a' - 'A' {
@@ -196,6 +204,7 @@ func EqualFoldSimple(s1, s2 string) bool {
             }
         }
     }
+
     return true
 }
 
@@ -262,6 +271,7 @@ func Contain(s, substr string) bool {
             return true
         }
     }
+
     return false
 }
 
@@ -278,6 +288,7 @@ func IntToString(values []int) string {
         fmt.Fprintf(&buffer, "%d", v)
     }
     buffer.WriteByte(']')
+
     return buffer.String()
 }
 
@@ -291,7 +302,6 @@ func JoinByBuffer(strArr []string, sep string) string {
     }
 
     var buffer bytes.Buffer
-
     for k, v := range strArr {
         buffer.WriteString(v)
         if k != len(strArr) - 1 {
@@ -311,18 +321,16 @@ func Join(strArr []string, sep string) string {
     }
 
     n := len(sep) * (len(strArr) - 1)
-
     for i := 0; i < len(strArr); i++ {
         n += len(strArr[i])
     }
-
     b := make([]byte, n)
     bp := copy(b, strArr[0])
-
     for _, s := range strArr[1:] {
         bp += copy(b[bp:], sep)
         bp += copy(b[bp:], s)
     }
+
     return string(b)
 }
 
@@ -333,6 +341,7 @@ func LastIndexByte(s string, b byte) int {
             return i
         }
     }
+
     return -1
 }
 
@@ -360,6 +369,7 @@ func Title(s string) string {
             sArr[0] = v - ('a' - 'A')
         }
     }
+
     return string(sArr)
 }
 
@@ -373,14 +383,13 @@ func TrimAllSpace(s string) string {
             n++
         }
     }
-
     rArr := make([]rune, len(s) - n)
-
     for _, v := range s {
         if v!= space {
             rArr[index] = v
             index++
         }
     }
+
     return string(rArr)
 }
