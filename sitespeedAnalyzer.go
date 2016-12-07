@@ -11,21 +11,23 @@ import (
 
 const CountRule = 39 // num of sitespeed rules
 const Threshold50 = 50 // used for analyze the percent of data above scroe 50
-const WorstScore = -1 // the bottom score of performance budget
+const WorstScore = 0 // the bottom score of performance budget
 const BestScore = 90 // the top score of performance budget
 const RulesNum = 39
 
 // the following 3 strcuts are used to analyze performance budget based on sitespeed.io
 // for more details, please read example test.json
 type PerformanceBudget struct {
+	CookieUrl string `json:"cookieUrl,omitempty"`
 	BasUrl   string `json:"baseUrl"`
-	Timeout int `json:"timeout"`
+	Timeout int `json:"mochaTimeout,omitempty"`
 	Id string `json:"id,omitempty"`
 	Pw string `json:"pw,omitempty"`
 	TestCases []JsonTestCases `json:"testCases"`
 }
 
 type JsonTestCases struct {
+	Description string `json:"description,omitempty"`
 	Pathname   string `json:"pathname"`
 	UrlParams map[string]interface{} `json:"urlParams"`
 	Budget JsonBudget `json:"budget"`
@@ -95,8 +97,8 @@ func main() {
         return
     }
 
-    // err = GetBudgetStatics(budgets)
-    err = GetRuleScore(budgets)
+    err = GetBudgetStatics(budgets)
+    // err = GetRuleScore(budgets)
     if err != nil {
         fmt.Println("Analysis error: %v\n", err)
         return
@@ -223,23 +225,31 @@ func GetBudgetStatics(budgets PerformanceBudget) error {
 	val049Pct := float64(countVal049) / float64(count)
 	valWorstPct := float64(countWorstSco) / float64(count)
 
-	fmt.Println("count = " + strconv.FormatInt(count, 10))
-
-	fmt.Println("countWorstSco( = -1 ) = " + strconv.FormatInt(countWorstSco, 10))
-	fmt.Println("valWorstPct( = -1 percent) = ", valWorstPct)
-
-	fmt.Println("countBestSco( = 90 ) = " + strconv.FormatInt(countBestSco, 10))
-	fmt.Println("valBestPct( = 90 percent ) = ", valBestPct)
-
-	fmt.Println("countVal5089( [50, 90) ]) = " + strconv.FormatInt(countVal5089, 10))
-	fmt.Println("val5089Pct( [50, 90) ] percent) = ", val5089Pct)
-
-	fmt.Println("countVal049( (-1, 50) ) = " + strconv.FormatInt(countVal049, 10))
-	fmt.Println("val049Pct( (-1, 50) ] percent) = ", val049Pct)
-	
 	fmt.Println("max = " + strconv.FormatInt(max, 10))
 	fmt.Println("min = " + strconv.FormatInt(min, 10))
-	fmt.Println("mean = " + strconv.FormatInt(mean, 10))
+	fmt.Println("\n\n\n\n\n\n\n\n\n")
+
+	fmt.Println("Num of rules data = " + strconv.FormatInt(count, 10))
+	fmt.Println("\n")
+
+	fmt.Println("Mean score of performance = " + strconv.FormatInt(mean, 10))
+	fmt.Println("\n")
+
+	fmt.Println("Num of worst performance rules(rule.score = 0 ) = " + strconv.FormatInt(countWorstSco, 10))
+	fmt.Println("Percent of worst performance rules = ", valWorstPct * 100)
+	fmt.Println("\n")
+
+	fmt.Println("Num of best performance rules( = 90 ) = " + strconv.FormatInt(countBestSco, 10))
+	fmt.Println("Percent of best performance rules = ", valBestPct * 100)
+	fmt.Println("\n")
+
+	fmt.Println("Num of rules whose score is between 50 and 90([50, 90]) = " + strconv.FormatInt(countVal5089, 10))
+	fmt.Println("Percent of rules whose score is between 50 and 90([50, 90]) = ", val5089Pct * 100)
+	fmt.Println("\n")
+
+	fmt.Println("Num of rules whose score is between 0 and 50([0, 50)) = " + strconv.FormatInt(countVal049, 10))
+	fmt.Println("Percent of rules whose score is between 0 and 50([0, 50)) = ", val049Pct * 100)
+	fmt.Println("\n")
 
 	return nil
 }
