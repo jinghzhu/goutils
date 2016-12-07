@@ -1,9 +1,6 @@
 {
-  "cookieUrl": "https://dev-console.stage1.ng.bluemix.net",
   "baseUrl": "http://localhost:3000",
   "mochaTimeout": 1200000,
-  "id": "zjh_test@yahoo.com",
-  "pw": "1qaz2wsx",
   "testCases": [
     {
       "pathname": "/apps/906e4887-431d-427a-b908-1f6c5f450613",
