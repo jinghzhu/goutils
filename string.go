@@ -1,4 +1,4 @@
-package goUtils
+package GoUtils
 
 import (
     "crypto/rand"
@@ -28,7 +28,9 @@ func ReverseRange(s string, start, end int) string {
     }
 
     sArr := []rune(s)
-    for i, j := start, end; i < j; i++, j-- {
+    // if replace i, j = i + 1, j - 1 with i++, j--
+    // it will throw error msg: syntax error: missing { after for clause
+    for i, j := start, end; i < j; i, j = i + 1, j - 1 {
         var temp rune = sArr[i]
         sArr[i] = sArr[j]
         sArr[j] = temp
@@ -120,7 +122,7 @@ func GenerateToken() string {
     rb := make([]byte, 32)
     _, err := rand.Read(rb)
     if err != nil {
-        fmt.Errorf(err)
+        fmt.Errorf(err.Error())
         return ""
     }
 
@@ -132,7 +134,6 @@ func IsVersion(version string) bool {
     versionRegeXp := "\\d+(\\.\\d+){0,2}"
     match, err := regexp.MatchString(versionRegeXp, version)
     if err != nil {
-        fmt.Errorf(err)
         panic(err.Error())
     }
 

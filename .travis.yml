@@ -1,0 +1,9 @@
+language: go
+
+go:
+  - master
+
+install:
+  - go get sort
+
+script: go test ./...

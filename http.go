@@ -1,4 +1,4 @@
-package goUtils
+package GoUtils
 
 
 import (
@@ -20,31 +20,6 @@ const (
     HTTP_METHOD_DELETE = "DELETE"
     HTTP_METHOD_PUT    = "PUT"
 )
-
-
-func IsResponseSuccess(resp *http.Response) (bool, error) {
-    if resp == nil {
-        errMsg := "Fail to check response msg. Http response is null."
-        fmt.Println(errMsg)
-        return false, errors.New(errMsg)
-    }
-
-    bodyStr, err := ResponseToString(resp)
-    if err != nil {
-        return false, err
-    }
-
-    resJson := Response{}
-    json.Unmarshal([]byte(bodyStr), &resJson)
-
-    if resJson.Code == SUCCESS_HTTP_CODE {
-        return true, nil
-    } else if strings.Contains(resJson.Msg, ALREADY_EXISTS) {
-        return true, nil
-    } else {
-        return false, nil
-    }
-}
 
 
 func IsEmail(email string) bool {
