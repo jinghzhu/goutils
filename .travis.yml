@@ -14,10 +14,6 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update          ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install graphviz; fi
 
-script:
-  - cd src
-  - make all
-
 go:
 # - 1.7.1
   - master
