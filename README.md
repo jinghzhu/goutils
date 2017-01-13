@@ -7,19 +7,8 @@ This is just a personal repo to write some Go helper packages.
 
 One of the most effective ways to collaborate on GitHub is by using a forking/branching model as described in the [GitHub Guides](https://guides.github.com/).
 
-### Setup
 
-* [Fork](https://guides.github.com/activities/forking/) the main repository to your personal GitHub space
-* Clone this new fork locally to your computer. Make sure you use the SSH URL, not the HTTPS URL. This will be your `origin` remote.
-* Add an `upstream` remote whose URL is the SSH URL of the main repository - `git remote add upstream {{url}}`, replacing `{{url}}` with the main repo's URL.
-
-### Divvying Up Work
-
-* Create [issues](https://guides.github.com/features/issues/) in the main repository to describe what work needs to be done
-* Assign the issue to an individual to work on and add it to the `To Do` pipeline in the ZenHub boards
-* When you have started working on an issue, move it to the `In Progress` pipeline.
-
-### Doing Work
+## Doing Work
 
 * Each time you begin doing work on a new issue, check out the master branch by doing `git checkout master`. You will only be able to do this if you don't have any changes in your local codebase.
 * Pull in the latest changes from upstream's master branch - `git pull upstream master`
