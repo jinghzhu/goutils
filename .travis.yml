@@ -17,6 +17,11 @@ go:
   - 1.6
   - master
 
+matrix:
+  exclude:
+    - go: master
+      env: DB=mysql
+
 install:
   - go get -d -v ./...
 
