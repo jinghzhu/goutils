@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/jinghzhu/GoUtils.svg?branch=dev)](https://travis-ci.org/jinghzhu/GoUtils)
+
 # Introduction
 
 This is just a personal repo to write some Go helper packages.
