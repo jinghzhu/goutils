@@ -1,9 +1,28 @@
 language: go
 
+os:
+  - linux
+  - osx
+
+# just for demo
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update          ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install graphviz; fi
+
+env: 
+  - DB=redis
+  - DB=mysql
+
 go:
+  - 1.6
   - master
 
+matrix:
+  exclude:
+    - go: master
+      env: DB=mysql
+
 install:
-  - go get sort
+  - go get -d -v ./...
 
 script: go test ./...
