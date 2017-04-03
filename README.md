@@ -1,5 +1,4 @@
-master: [![Build Status](https://travis-ci.org/jinghzhu/GoUtils.svg?branch=master)](https://travis-ci.org/jinghzhu/GoUtils)
-dev: [![Build Status](https://travis-ci.org/jinghzhu/GoUtils.svg?branch=dev)](https://travis-ci.org/jinghzhu/GoUtils)
+[![Build Status](https://travis-ci.org/jinghzhu/GoUtils.svg?branch=master)](https://travis-ci.org/jinghzhu/GoUtils)
 
 # Introduction
 
