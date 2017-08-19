@@ -1,4 +1,4 @@
-package util
+package utils
 
 import (
 	"fmt"
@@ -33,4 +33,3 @@ func TestUtilStruct2String(t *testing.T) {
 	}
 
 }
-

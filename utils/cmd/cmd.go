@@ -1,4 +1,4 @@
-package shell
+package cmd
 
 import (
 	"bytes"
@@ -54,11 +54,12 @@ func GetMountPoints(server string) ([]string, error) {
 
 	go func() {
 		done <- cmd.Wait()
+		close(done)
 	}()
 	go func() {
-		// wait 15 seconds for showmount
 		time.Sleep(ShowmountTimeout)
 		timeout <- true
+		close(timeout)
 	}()
 	select {
 	case <-timeout:
