@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"os/exec"
+	"path/filepath"
+	"runtime"
 	"strings"
 )
 
@@ -34,4 +36,20 @@ func GetMountPoints(server string) ([]string, error) {
 		sArr[i] = temp[:index]
 	}
 	return sArr, nil
+}
+
+// Locate returns the line number and file name in the current goroutine statck trace. The argument skip is the number of stack frames to ascend, with 0 identifying the caller of Caller.
+func Locate(skip int) (filename string, line int) {
+	if skip < 0 {
+		skip = 2
+	}
+	_, path, line, ok := runtime.Caller(skip)
+	file := ""
+	if ok {
+		_, file = filepath.Split(path)
+	} else {
+		fmt.Println("Fail to get method caller")
+		line = -1
+	}
+	return file, line
 }
