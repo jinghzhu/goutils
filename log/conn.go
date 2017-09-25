@@ -78,9 +78,8 @@ func monitorConn(interval time.Duration) {
 		conn, err := getConn()
 		defer conn.Close()
 		if err != nil {
-			log = GetConsoleLogger()
-			log.Println("Encounter error while monitoring connection. " + err.Error())
-			mail.Send("test@test.com", []string{"test@test.com"}, "alert", "alert")
+			GetConsoleLogger().Println("Encounter error while monitoring connection. " + err.Error())
+			mail.Send("test", "test@test.com", []string{"test@test.com"}, "alert", "alert")
 		} else {
 			time.Sleep(interval)
 		}
