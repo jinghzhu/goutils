@@ -25,8 +25,9 @@ var (
 func init() {
 	logLevels = map[string]int{ERROR: 3, WARNING: 2, INFO: 1, DEBUG: 0}
 	console := GetConsoleLogger()
-	conn := GetConnLogger()
-	channels = []*log.Logger{conn, console}
+	// conn := GetConnLogger()
+	// By default, only enable console
+	channels = []*log.Logger{console}
 }
 
 func SetLogLevel(level string) {
