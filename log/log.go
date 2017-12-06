@@ -4,17 +4,27 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
 	"path/filepath"
 	"runtime"
 	"strings"
 	"time"
 
-	"git.eng.vmware.com/gulel/pkg/config"
+	logsyslog "log/syslog"
+
 	"github.com/sirupsen/logrus"
 	syslog "github.com/sirupsen/logrus/hooks/syslog"
 )
 
 type Fields map[string]interface{}
+
+type LoggingRemoteOpts struct {
+	RemoteProtocol string             `json:"protocol"`
+	RemoteServer   string             `json:"remote_server"`
+	Flag           int                `json:"flag"`
+	Priority       logsyslog.Priority `json:"priority"`
+	Tag            string             `json:"tag"`
+}
 
 // Only support three log levels
 const (
@@ -38,9 +48,13 @@ func initLogrus() {
 	// Disable logrun to output logs in local machine
 	logrus.SetOutput(ioutil.Discard)
 
-	config := config.GetConfig()
-	if len(config.LoggingRemoteOptions) > 0 {
-		logopts := config.LoggingRemoteOptions[0]
+	if os.Getenv("HTTPLOGSERVER") != "" {
+		logopts := &LoggingRemoteOpts{
+			RemoteProtocol: "tcp",
+			RemoteServer:   os.Getenv("HTTPLOGSERVER"),
+			Flag:           log.LstdFlags,
+			Priority:       logsyslog.LOG_INFO,
+		}
 		hook, err := syslog.NewSyslogHook(
 			logopts.RemoteProtocol,
 			logopts.RemoteServer,
