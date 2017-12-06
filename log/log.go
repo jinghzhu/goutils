@@ -2,94 +2,134 @@ package log
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
-	"os"
 	"path/filepath"
 	"runtime"
 	"strings"
+	"time"
+
+	"git.eng.vmware.com/gulel/pkg/config"
+	"github.com/sirupsen/logrus"
+	syslog "github.com/sirupsen/logrus/hooks/syslog"
 )
 
+type Fields map[string]interface{}
+
+// Only support three log levels
 const (
-	DEBUG   = "DEBUG"
-	INFO    = "INFO"
-	WARNING = "WARNING"
-	ERROR   = "ERROR"
+	DEBUG = "DEBUG"
+	INFO  = "INFO"
+	ERROR = "ERROR"
 )
 
 var (
-	logLevels map[string]int
-	logLevel  = 0
-	channels  []*log.Logger
+	LogLevel string
+	console  *log.Logger
 )
 
 func init() {
-	logLevels = map[string]int{ERROR: 3, WARNING: 2, INFO: 1, DEBUG: 0}
-	console := GetConsoleLogger()
-	// conn := GetConnLogger()
-	// By default, only enable console
-	channels = []*log.Logger{console}
+	initConsole()
+	initLogrus()
 }
 
-func SetLogLevel(level string) {
-	if !validateLogLevel(level) {
-		fmt.Println("Log level(" + level + ") is not correct.")
-		return
-	}
-	logLevel = logLevels[strings.ToUpper(level)]
-}
+func initLogrus() {
+	logrus.SetFormatter(&logrus.JSONFormatter{})
+	// Disable logrun to output logs in local machine
+	logrus.SetOutput(ioutil.Discard)
 
-func Debug(msg string) {
-	if logLevels[DEBUG] >= logLevel {
-		printLog(DEBUG, msg)
-	}
-}
-
-func Info(msg string) {
-	if logLevels[INFO] >= logLevel {
-		printLog(INFO, msg)
-	}
-}
-
-func Warning(msg string) {
-	if logLevels[WARNING] >= logLevel {
-		printLog(WARNING, msg)
-	}
-}
-
-func Error(msg string) {
-	if logLevels[ERROR] >= logLevel {
-		printLog(ERROR, msg)
-	}
-}
-
-func printLog(prefix string, msg string) {
-	filename, line := Locate()
-	hostname, err := os.Hostname()
-	if err != nil {
-		fmt.Printf("Hostname error:" + err.Error())
-		hostname = "Error Hostname"
-	}
-	for _, v := range channels {
-		v.Println("[" + prefix + "] " + hostname + " " + filename + " ln" + fmt.Sprintf("%d", line) + " " + msg)
-	}
-}
-
-func validateLogLevel(level string) bool {
-	level = strings.ToUpper(level)
-	if logLevels == nil {
-		Error("logLevels is nil")
-		return false
-	}
-	for k := range logLevels {
-		if k == level {
-			return true
+	config := config.GetConfig()
+	if len(config.LoggingRemoteOptions) > 0 {
+		logopts := config.LoggingRemoteOptions[0]
+		hook, err := syslog.NewSyslogHook(
+			logopts.RemoteProtocol,
+			logopts.RemoteServer,
+			logopts.Priority,
+			logopts.Tag)
+		if err != nil {
+			fmt.Printf("Could not format logger %+v\n", err)
+		} else {
+			logrus.AddHook(hook)
 		}
 	}
-	return false
 }
 
-func Locate() (filename string, line int) {
-	_, path, line, ok := runtime.Caller(3)
+func initConsole() {
+	console = GetConsoleLogger()
+}
+
+// SetLogLevel sets log level for logrus and local console. Accept info and error level.
+// By default, it is info level.
+func SetLogLevel(level string) {
+	if strings.ToUpper(level) == INFO || !isValidLevel(level) {
+		// by default, info level
+		logrus.SetLevel(logrus.InfoLevel)
+		LogLevel = INFO
+	} else {
+		logrus.SetLevel(logrus.ErrorLevel)
+		LogLevel = ERROR
+	}
+	msg := "The log level is " + LogLevel
+	logrus.Infoln(msg)
+	console.Println(msg)
+}
+
+func isValidLevel(level string) bool {
+	level = strings.ToUpper(level)
+	if level != INFO && level != ERROR {
+		return false
+	}
+	return true
+}
+
+// Print log in simple way
+func Info(msg interface{}) {
+	if LogLevel == INFO {
+		output(msg, INFO)
+	}
+}
+
+func Error(msg interface{}) {
+	output(msg, ERROR)
+}
+
+func output(msg interface{}, prefix string) {
+	logrus.Println(msg)
+	file, line := Locate(3)
+	console.Println(
+		fmt.Sprintf("[%s] %s Ln%d %+v", prefix, file, line, msg),
+	)
+}
+
+// InfoFields prints log with fields
+func InfoFields(msg string, fields Fields) {
+	if LogLevel == INFO {
+		outputFields(msg, fields, INFO)
+	}
+}
+
+func ErrorFields(msg string, fields Fields) {
+	outputFields(msg, fields, ERROR)
+}
+
+func outputFields(msg string, fields Fields, prefix string) {
+	e := logrus.WithFields(logrus.Fields(fields))
+	e.Time = time.Now()
+	e.Println(msg)
+	data, err := e.String()
+	if err != nil {
+		console.Println("Fail to get string representation for logrus.entry. " + err.Error())
+		data = fmt.Sprintf("%v", fields)
+	}
+	file, line := Locate(3)
+	console.Println(fmt.Sprintf("[%s] %s Ln%d %s %s", prefix, file, line, msg, data))
+}
+
+func Locate(skip int) (filename string, line int) {
+	if skip < 0 {
+		return "", skip
+	}
+	_, path, line, ok := runtime.Caller(skip)
 	file := ""
 	if ok {
 		_, file = filepath.Split(path)
