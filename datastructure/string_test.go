@@ -1,9 +1,8 @@
-package utils
+package datastructure
 
 import (
         "testing"
 )
-
 
 // To-do: add test cases for non-English
 func TestCompare(t *testing.T) {

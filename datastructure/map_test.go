@@ -1,9 +1,8 @@
-package utils
+package datastructure
 
 import (
         "testing"
 )
-
 
 func TestEqualStringInt(t *testing.T) {
     var m1 map[string]int = nil

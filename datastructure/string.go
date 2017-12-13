@@ -1,4 +1,4 @@
-package utils
+package datastructure
 
 import (
     "crypto/rand"
@@ -9,18 +9,15 @@ import (
     "regexp"
 )
 
-
 func ReverseStrings(strings []string) {
     for i, j := 0, len(strings) - 1; i < j; i, j = i + 1, j - 1 {
         strings[i], strings[j] = strings[j], strings[i]
     }
 }
 
-
 func Reverse(s string) string {
     return ReverseRange(s, 0, len(s) - 1)
 }
-
 
 func ReverseRange(s string, start, end int) string {
     if len(s) <= 1 || end <= start || end > len(s) || start < 0 || end < 0 {
@@ -38,7 +35,6 @@ func ReverseRange(s string, start, end int) string {
 
     return string(sArr)
 }
-
 
 // return a slice holding only the non-empty string
 func NonEmpty(strings []string) []string {
@@ -80,7 +76,6 @@ func EqualSlice(x, y []string) bool {
 
     return true
 }
-
 
 // Input: s1 = "test", s2 = "etst"
 // Output: true
@@ -129,7 +124,6 @@ func GenerateToken() string {
     return base64.URLEncoding.EncodeToString(rb)
 }
 
-
 func IsVersion(version string) bool {
     versionRegeXp := "\\d+(\\.\\d+){0,2}"
     match, err := regexp.MatchString(versionRegeXp, version)
@@ -139,7 +133,6 @@ func IsVersion(version string) bool {
 
     return match
 }
-
 
 func Compare(a, b string) int {
     if a == b {
