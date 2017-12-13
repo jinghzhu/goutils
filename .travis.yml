@@ -4,15 +4,16 @@ os:
   - linux
   - osx
 
-# just for demo
-before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update          ; fi
+# before_install:
+#   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update          ; fi
 
 go:
   - 1.7
+  - 1.8
+  - 1.9
   - master
 
 install:
   - go get -d -v ./...
 
-script: go test ./...
+script: go test ./http && go test ./datastructure
