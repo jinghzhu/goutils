@@ -1,4 +1,4 @@
-package array
+package datastructure
 
 func Index(arr []string, item string) int {
 	if arr == nil || len(arr) == 0 {
