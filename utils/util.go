@@ -19,6 +19,38 @@ func Struct2String(v interface{}) string {
 	return string(result)
 }
 
+// PanicHandler catches a panic and logs an error. Suppose to be called via defer.
+func PanicHandler() {
+	buf := make([]byte, stackBuffer)
+	runtime.Stack(buf, false)
+	name, file, line := GetCallerInfo(2)
+	if r := recover(); r != nil {
+		fmt.Printf("%s %s ln%d: PANIC Defered : %v\n", name, file, line, r)
+		fmt.Printf("%s %s ln%d: Stack Trace : %s", name, file, line, string(buf))
+	}
+}
+
+func GetCallerInfo(level int) (caller string, fileName string, lineNum int) {
+	if level < 1 || level > maxCallerLevel {
+		level = defaultCallerLevel
+	}
+
+	pc, file, line, ok := runtime.Caller(level)
+	fileDefault := ""
+	lineDefault := -1
+	nameDefault := ""
+	if ok {
+		fileDefault = file
+		lineDefault = line
+	}
+	details := runtime.FuncForPC(pc)
+	if details != nil {
+		nameDefault = details.Name()
+	}
+
+	return nameDefault, fileDefault, lineDefault
+}
+
 // GetMountPoints returns all moutpoins in a string array
 func GetMountPoints(server string) ([]string, error) {
 	b, err := exec.Command("showmount", "-e", server).Output()
