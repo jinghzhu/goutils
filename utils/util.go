@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"runtime"
 	"strings"
+	"time"
 )
 
 func Struct2String(v interface{}) string {
@@ -94,4 +95,34 @@ func Swap(data []int, i, j int) {
 	temp := data[i]
 	data[i] = data[j]
 	data[j] = temp
+}
+
+// Retry will retry the given condition function with specific time interval and retry round.
+// It will return true if the condition is met. If it is timeout, it will return false. Otherwise,
+// it will return the error encountered in the retry round.
+func Retry(interval time.Duration, round int, retry func() (bool, error)) (bool, error) {
+	if round < 1 {
+		round = 1
+	}
+	if interval > time.Hour {
+		interval = time.Hour
+	}
+	var err error
+	done := false
+	for i := 0; i < round; i++ {
+		done, err = retry()
+		if done {
+			break
+		}
+		time.Sleep(interval)
+	}
+
+	if done {
+		return true, nil
+	}
+	if err != nil {
+		return false, err
+	}
+
+	return false, nil
 }
