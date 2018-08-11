@@ -8,12 +8,10 @@ os:
 #   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update          ; fi
 
 go:
-  - 1.7
-  - 1.8
-  - 1.9
+  - 1.10
   - master
 
 install:
   - go get -d -v ./...
 
-script: go test ./http && go test ./datastructure
+script: echo "hello"
