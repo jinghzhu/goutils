@@ -1,8 +1,8 @@
-[![Build Status](https://travis-ci.org/jinghzhu/GoUtils.svg?branch=master)](https://travis-ci.org/jinghzhu/GoUtils)
+[![Build Status](https://travis-ci.org/jinghzhu/goutils.svg?branch=master)](https://travis-ci.org/jinghzhu/goutils)
 
 # Introduction
 
-This is just a personal repo to write some Go helper packages.
+Personal repo to write some Go helper packages.
 
 
 ## Collaborating
