@@ -31,5 +31,4 @@ func TestUtilStruct2String(t *testing.T) {
 	if s != r {
 		t.Error("\tShould return " + r)
 	}
-
 }

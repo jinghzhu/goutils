@@ -1,4 +1,4 @@
-package datastructure
+package array
 
 func Index(arr []string, item string) int {
 	if arr == nil || len(arr) == 0 {
@@ -12,7 +12,7 @@ func Index(arr []string, item string) int {
 	return -1
 }
 
-func Include(arr []string, item string) bool {
+func Contain(arr []string, item string) bool {
 	return Index(arr, item) >= 0
 }
 

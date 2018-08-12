@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/jinghzhu/GoUtils/mail"
+	"github.com/jinghzhu/goutils/mail"
 )
 
 const (

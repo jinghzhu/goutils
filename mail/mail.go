@@ -6,7 +6,7 @@ import (
 	"net/smtp"
 	"strings"
 
-	catcher "github.com/jinghzhu/GoUtils/panic"
+	"github.com/jinghzhu/goutils/utils"
 )
 
 const (
@@ -15,7 +15,7 @@ const (
 )
 
 func Send(from string, fromAddr string, to []string, subject string, body string) (err error) {
-	defer catcher.CatchPanic(&err)
+	defer utils.PanicHandler()
 	if len(to) == 0 {
 		return errors.New("Need 1 recipient at least.")
 	}
@@ -26,6 +26,6 @@ func Send(from string, fromAddr string, to []string, subject string, body string
 
 	msg := []byte("To: " + strings.Join(to, ",") + "\r\nFrom: " + from +
 		"<" + fromAddr + ">\r\nSubject: " + subject + "\r\n" + contentTypeText + "\r\n\r\n" + body)
-	return smtp.SendMail(server, nil, from, to, msg)
 
+	return smtp.SendMail(server, nil, from, to, msg)
 }

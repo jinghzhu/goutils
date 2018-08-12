@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/jinghzhu/GoUtils/array"
+	"github.com/jinghzhu/goutils/datastructure/array"
 )
 
 // ValidMounts return true if all of the mountpoins are legal
@@ -24,22 +24,22 @@ func ValidMounts(ms []Mount) (bool, error) {
 			return false, errors.New(errMsg)
 		}
 		if data, ok := mountData[m.Server]; ok {
-			if !array.Include(data, m.Share) {
-				return false, nil
-			}
-		} else {
-			mountPoints, err := GetMountPoints(m.Server)
-			if err != nil {
-				errMsg += err.Error()
-				fmt.Println(errMsg)
-				return false, err
-			}
-			mountData[m.Server] = mountPoints
-			if !array.Include(mountPoints, m.Share) {
+			if !array.Contain(data, m.Share) {
 				return false, nil
 			}
 		}
+		mountPoints, err := GetMountPoints(m.Server)
+		if err != nil {
+			errMsg += err.Error()
+			fmt.Println(errMsg)
+			return false, err
+		}
+		mountData[m.Server] = mountPoints
+		if !array.Contain(mountPoints, m.Share) {
+			return false, nil
+		}
 	}
+
 	return true, nil
 }
 

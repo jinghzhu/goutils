@@ -10,9 +10,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/sirupsen/logrus"
+
 	logsyslog "log/syslog"
 
-	"github.com/sirupsen/logrus"
 	syslog "github.com/sirupsen/logrus/hooks/syslog"
 )
 
