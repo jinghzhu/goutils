@@ -54,6 +54,13 @@ func IsRequestURL(rawurl string) (bool, error) {
 	return true, nil
 }
 
+// IsRequestURI checks if the string rawurl, assuming it was received in an HTTP request, is an
+// absolute URI or an absolute path.
+func IsRequestURI(rawurl string) bool {
+	_, err := url.ParseRequestURI(rawurl)
+	return err == nil
+}
+
 func ResponseToString(resp *http.Response) (string, error) {
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
