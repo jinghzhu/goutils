@@ -11,7 +11,7 @@ func TestToFloat(t *testing.T) {
 	for k, v := range testCases {
 		res, _ := ToFloat(v)
 		if res != expected[k] {
-			t.Log("Case ", i, ": expected ", expected[i], " when result is ", res)
+			t.Log("Case ", k, ": expected ", expected[k], " when result is ", res)
 			t.FailNow()
 		}
 	}
@@ -31,6 +31,18 @@ func TestToJSON(t *testing.T) {
 		}
 		if fmt.Sprintf("%v", err) != expected[i][1] {
 			t.Errorf("Expected error returned from toJSON(%v) to return '%v', got '%v'", test, expected[i][1], fmt.Sprintf("%v", err))
+		}
+	}
+}
+
+func TestToInt(t *testing.T) {
+	testCasess := []string{"1000", "-123", "abcdef", "100000000000000000000000000000000000000000000"}
+	expected := []int64{1000, -123, 0, 0}
+	for k, v := range testCases {
+		result, _ := ToInt(v)
+		if result != expected[k] {
+			t.Log("Case ", k, ": expected ", expected[k], " when result is ", result)
+			t.FailNow()
 		}
 	}
 }
