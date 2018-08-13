@@ -4,6 +4,7 @@ import (
     "encoding/json"
     "fmt"
     "strconv"
+    "reflect"
 )
 
 // ToString converts input to string.
@@ -58,4 +59,9 @@ func ToInt(value interface{}) (res int64, err error) {
 	}
 
 	return
+}
+
+// ToBool convert the input string to a boolean.
+func ToBool(str string) (bool, error) {
+	return strconv.ParseBool(str)
 }
