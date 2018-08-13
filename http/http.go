@@ -39,6 +39,20 @@ func IsURL(url string) bool {
 	return match
 }
 
+// IsRequestURL checks if the string rawurl, assuming it was received in an HTTP request, is a valid
+// URL confirm to RFC 3986.
+func IsRequestURL(rawurl string) (bool, error) {
+	url, err := url.ParseRequestURI(rawurl)
+	if err != nil {
+		return false, err
+	}
+	if len(url.Scheme) == 0 {
+		return false, nil
+	}
+	
+	return true, nil
+}
+
 func ResponseToString(resp *http.Response) (string, error) {
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
