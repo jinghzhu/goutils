@@ -50,3 +50,16 @@ func Int64Map(src map[string]int64) map[string]*int64 {
 	
 	return dst
 }
+
+// Int64ValMap converts a string map of int64 pointers into a string
+// map of int64 values
+func Int64ValMap(src map[string]*int64) map[string]int64 {
+	dst := make(map[string]int64)
+	for k, val := range src {
+		if val != nil {
+			dst[k] = *val
+		}
+	}
+	
+	return dst
+}
