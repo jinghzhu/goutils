@@ -22,5 +22,19 @@ func Int64Slice(src []int64) []*int64 {
 	for i := 0; i < len(src); i++ {
 		dst[i] = &(src[i])
 	}
+	
+	return dst
+}
+
+// Int64ValSlice converts a slice of int64 pointers into a slice of
+// int64 values
+func Int64ValSlice(src []*int64) []int64 {
+	dst := make([]int64, len(src))
+	for i := 0; i < len(src); i++ {
+		if src[i] != nil {
+			dst[i] = *(src[i])
+		}
+	}
+	
 	return dst
 }
