@@ -5,6 +5,27 @@ func Uint(v uint) *uint {
 	return &v
 }
 
+// UintVal returns the value of the uint pouinter passed in or
+// 0 if the pouinter is nil.
+func UintVal(v *uint) uint {
+	if v != nil {
+		return *v
+	}
+	
+	return 0
+}
+
+// UintSlice converts a slice of uint values uinto a slice of
+// uint pouinters
+func UintSlice(src []uint) []*uint {
+	dst := make([]*uint, len(src))
+	for i := 0; i < len(src); i++ {
+		dst[i] = &(src[i])
+	}
+	
+	return dst
+}
+
 // Int64 returns a pointer to of int64 value passed in.
 func Int64(v int64) *int64 {
 	return &v
