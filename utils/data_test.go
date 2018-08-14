@@ -56,3 +56,24 @@ func TestInt64ValSlice(t *testing.T) {
 		}
 	}
 }
+
+var testCasesInt64Map = []map[string]int64{
+	{"a": 3, "b": 2, "c": 1},
+}
+
+func TestInt64Map(t *testing.T) {
+	for idx, in := range testCasesInt64Map {
+		if in == nil {
+			continue
+		}
+		out := Int64Map(in)
+		assert.Len(t, out, len(in), "Unexpected len at idx %d", idx)
+		for i := range out {
+			assert.Equal(t, in[i], *(out[i]), "Unexpected value at idx %d", idx)
+		}
+
+		out2 := Int64ValueMap(out)
+		assert.Len(t, out2, len(in), "Unexpected len at idx %d", idx)
+		assert.Equal(t, in, out2, "Unexpected value at idx %d", idx)
+	}
+}
