@@ -38,3 +38,15 @@ func Int64ValSlice(src []*int64) []int64 {
 	
 	return dst
 }
+
+// Int64Map converts a string map of int64 values into a string
+// map of int64 pointers
+func Int64Map(src map[string]int64) map[string]*int64 {
+	dst := make(map[string]*int64)
+	for k, val := range src {
+		v := val
+		dst[k] = &v
+	}
+	
+	return dst
+}
