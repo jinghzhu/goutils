@@ -7,6 +7,27 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+var testCasesUintSlice = [][]uint{
+	{1, 2, 3, 4},
+}
+
+func TestUintSlice(t *testing.T) {
+	for idx, in := range testCasesUintSlice {
+		if in == nil {
+			continue
+		}
+		out := UintSlice(in)
+		assert.Len(t, out, len(in), "Unexpected len at idx %d", idx)
+		for i := range out {
+			assert.Equal(t, in[i], *(out[i]), "Unexpected value at idx %d", idx)
+		}
+
+		out2 := UintValueSlice(out)
+		assert.Len(t, out2, len(in), "Unexpected len at idx %d", idx)
+		assert.Equal(t, in, out2, "Unexpected value at idx %d", idx)
+	}
+}
+
 var testCasesInt64Slice = [][]int64{
 	{1, 2, 3, 4},
 }
