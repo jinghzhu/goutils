@@ -1,4 +1,4 @@
-package utils
+package data
 
 // Uint returns a pouinter to of the uint value passed in.
 func Uint(v uint) *uint {
@@ -11,7 +11,7 @@ func UintVal(v *uint) uint {
 	if v != nil {
 		return *v
 	}
-	
+
 	return 0
 }
 
@@ -22,7 +22,7 @@ func UintSlice(src []uint) []*uint {
 	for i := 0; i < len(src); i++ {
 		dst[i] = &(src[i])
 	}
-	
+
 	return dst
 }
 
@@ -37,7 +37,7 @@ func Int64Val(v *int64) int64 {
 	if v != nil {
 		return *v
 	}
-  
+
 	return 0
 }
 
@@ -48,7 +48,7 @@ func Int64Slice(src []int64) []*int64 {
 	for i := 0; i < len(src); i++ {
 		dst[i] = &(src[i])
 	}
-	
+
 	return dst
 }
 
@@ -61,7 +61,7 @@ func Int64ValSlice(src []*int64) []int64 {
 			dst[i] = *(src[i])
 		}
 	}
-	
+
 	return dst
 }
 
@@ -73,7 +73,7 @@ func Int64Map(src map[string]int64) map[string]*int64 {
 		v := val
 		dst[k] = &v
 	}
-	
+
 	return dst
 }
 
@@ -86,6 +86,6 @@ func Int64ValMap(src map[string]*int64) map[string]int64 {
 			dst[k] = *val
 		}
 	}
-	
+
 	return dst
 }

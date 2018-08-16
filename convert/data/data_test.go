@@ -1,8 +1,7 @@
-package utils
+package data
 
 import (
 	"testing"
-	"time"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -22,7 +21,7 @@ func TestUintSlice(t *testing.T) {
 			assert.Equal(t, in[i], *(out[i]), "Unexpected value at idx %d", idx)
 		}
 
-		out2 := UintValueSlice(out)
+		out2 := UintValSlice(out)
 		assert.Len(t, out2, len(in), "Unexpected len at idx %d", idx)
 		assert.Equal(t, in, out2, "Unexpected value at idx %d", idx)
 	}
@@ -43,7 +42,7 @@ func TestInt64Slice(t *testing.T) {
 			assert.Equal(t, in[i], *(out[i]), "Unexpected value at idx %d", idx)
 		}
 
-		out2 := Int64ValueSlice(out)
+		out2 := Int64ValSlice(out)
 		assert.Len(t, out2, len(in), "Unexpected len at idx %d", idx)
 		assert.Equal(t, in, out2, "Unexpected value at idx %d", idx)
 	}
@@ -93,7 +92,7 @@ func TestInt64Map(t *testing.T) {
 			assert.Equal(t, in[i], *(out[i]), "Unexpected value at idx %d", idx)
 		}
 
-		out2 := Int64ValueMap(out)
+		out2 := Int64ValMap(out)
 		assert.Len(t, out2, len(in), "Unexpected len at idx %d", idx)
 		assert.Equal(t, in, out2, "Unexpected value at idx %d", idx)
 	}
