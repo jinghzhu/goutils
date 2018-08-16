@@ -8,6 +8,36 @@ import (
 	"github.com/jinghzhu/goutils/valiadator"
 )
 
+// StrToInt8 turn a string into int8 boolean.
+func StrToInt8(str string) (int8, error) {
+	i, err := strconv.ParseInt(str, 10, 8)
+	if err != nil {
+		return 0, err
+	}
+
+	return int8(i), nil
+}
+
+// StrToInt16 turn a string into a int16.
+func StrToInt16(str string) (int16, error) {
+	i, err := strconv.ParseInt(str, 10, 16)
+	if err != nil {
+		return 0, err
+	}
+
+	return int16(i), nil
+}
+
+// StrToInt32 turn a string into a int32
+func StrToInt32(str string) (int32, error) {
+	i, err := strconv.ParseInt(str, 10, 32)
+	if err != nil {
+		return 0, err
+	}
+
+	return int32(i), nil
+}
+
 // StrToInt64 turn a string into a int64.
 func StrToInt64(str string) (int64, error) {
 	return strconv.ParseInt(str, 10, 64)
