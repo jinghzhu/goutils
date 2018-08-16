@@ -21,3 +21,23 @@ func Int16ToStr(value int16) string {
 func Int8ToStr(value int8) string {
 	return strconv.FormatInt(int64(value), 10)
 }
+
+// Uint8ToStr turns an uint8 into a string.
+func Uint8ToStr(value uint8) string {
+	return strconv.FormatUint(uint64(value), 10)
+}
+
+// Uint16ToStr turns an uint16 into a string.
+func Uint16ToStr(value uint16) string {
+	return strconv.FormatUint(uint64(value), 10)
+}
+
+// Uint32ToStr turns an uint32 into a string.
+func Uint32ToStr(value uint32) string {
+	return strconv.FormatUint(uint64(value), 10)
+}
+
+// Uint64ToStr turns an uint64 into a string.
+func Uint64ToStr(value uint64) string {
+	return strconv.FormatUint(value, 10)
+}
