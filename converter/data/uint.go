@@ -37,7 +37,38 @@ func UintValSlice(src []*uint) []uint {
 			dst[i] = *(src[i])
 		}
 	}
+
 	return dst
+}
+
+// StrToUint8 turn a string into a uint8
+func StrToUint8(str string) (uint8, error) {
+	i, err := strconv.ParseUint(str, 10, 8)
+	if err != nil {
+		return 0, err
+	}
+
+	return uint8(i), nil
+}
+
+// StrToUint16 turn a string into a uint16
+func StrToUint16(str string) (uint16, error) {
+	i, err := strconv.ParseUint(str, 10, 16)
+	if err != nil {
+		return 0, err
+	}
+
+	return uint16(i), nil
+}
+
+// StrToUint32 turn a string into a uint32
+func StrToUint32(str string) (uint32, error) {
+	i, err := strconv.ParseUint(str, 10, 32)
+	if err != nil {
+		return 0, err
+	}
+
+	return uint32(i), nil
 }
 
 // StrToUint64 turn a string into a uint64.
