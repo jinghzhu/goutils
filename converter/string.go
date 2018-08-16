@@ -2,6 +2,20 @@ package converter
 
 import "strconv"
 
+// StrPointer returns a pointer to of the Pointer value passed in.
+func StrPointer(v string) *string {
+	return &v
+}
+
+// StrVal returns the value of the string pointer passed in or "" if the pointer is nil.
+func StrVal(v *string) string {
+	if v != nil {
+		return *v
+	}
+
+	return ""
+}
+
 // Int64ToStr turns an int64 into a string.
 func Int64ToStr(value int64) string {
 	return strconv.FormatInt(value, 10)
