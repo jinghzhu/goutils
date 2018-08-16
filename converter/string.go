@@ -16,6 +16,28 @@ func StrVal(v *string) string {
 	return ""
 }
 
+// StrSlice converts a slice of string values into a slice of string pointers.
+func StrSlice(src []string) []*string {
+	dst := make([]*string, len(src))
+	for i := 0; i < len(src); i++ {
+		dst[i] = &(src[i])
+	}
+
+	return dst
+}
+
+// StringValSlice converts a slice of string pointers into a slice of string values.
+func StringValSlice(src []*string) []string {
+	dst := make([]string, len(src))
+	for i := 0; i < len(src); i++ {
+		if src[i] != nil {
+			dst[i] = *(src[i])
+		}
+	}
+
+	return dst
+}
+
 // Int64ToStr turns an int64 into a string.
 func Int64ToStr(value int64) string {
 	return strconv.FormatInt(value, 10)
