@@ -41,3 +41,13 @@ func Uint32ToStr(value uint32) string {
 func Uint64ToStr(value uint64) string {
 	return strconv.FormatUint(value, 10)
 }
+
+// Float32ToStr turns a float32 into a string.
+func Float32ToStr(value float32) string {
+	return strconv.FormatFloat(float64(value), 'f', -1, 32)
+}
+
+// Float64ToStr turns a float64 into a string.
+func Float64ToStr(value float64) string {
+	return strconv.FormatFloat(value, 'f', -1, 64)
+}
