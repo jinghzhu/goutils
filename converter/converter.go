@@ -23,7 +23,7 @@ func ToJSON(obj interface{}) (string, error) {
 	return string(res), nil
 }
 
-// ToBool convert the input string to a boolean.
-func ToBool(str string) (bool, error) {
+// StToBool convert the input string to a boolean.
+func StToBool(str string) (bool, error) {
 	return strconv.ParseBool(str)
 }

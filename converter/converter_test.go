@@ -5,11 +5,11 @@ import (
 	"testing"
 )
 
-func TestToBool(t *testing.T) {
+func TestStToBool(t *testing.T) {
 	testCases := []string{"true", "1", "True", "false", "0", "abcdef"}
 	expected := []bool{true, true, true, false, false, false}
 	for k, v := range testCases {
-		res, _ := ToBool(v)
+		res, _ := StToBool(v)
 		if res != expected[k] {
 			t.Log("Case ", k, ": expected ", expected[k], " when result is ", res)
 			t.FailNow()
