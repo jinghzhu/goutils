@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"reflect"
 	"strconv"
+
+	"github.com/jinghzhu/goutils/valiadator"
 )
 
 // StrToInt64 turn a string into a int64.
@@ -21,7 +23,7 @@ func InterfaceToInt64(value interface{}) (res int64, err error) {
 	case uint, uint8, uint16, uint32, uint64:
 		res = int64(val.Uint())
 	case string:
-		if IsInt(val.String()) {
+		if valiadator.IsInt(val.String()) {
 			res, err = strconv.ParseInt(val.String(), 0, 64)
 			if err != nil {
 				res = 0

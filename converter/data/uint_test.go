@@ -1,99 +1,26 @@
 package data
 
 import (
+	"math"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
+	"github.com/jinghzhu/goutils/converter"
 )
 
-var testCasesUintSlice = [][]uint{
-	{1, 2, 3, 4},
-}
+func TestStrToUint64(t *testing.T) {
+	validUints := []uint64{0, 1, math.MaxUint8, math.MaxUint16, math.MaxUint32, math.MaxUint64}
+	invalidUints := []string{"1.233", "a", "false"}
 
-func TestUintSlice(t *testing.T) {
-	for idx, in := range testCasesUintSlice {
-		if in == nil {
-			continue
-		}
-		out := UintSlice(in)
-		assert.Len(t, out, len(in), "Unexpected len at idx %d", idx)
-		for i := range out {
-			assert.Equal(t, in[i], *(out[i]), "Unexpected value at idx %d", idx)
-		}
-
-		out2 := UintValSlice(out)
-		assert.Len(t, out2, len(in), "Unexpected len at idx %d", idx)
-		assert.Equal(t, in, out2, "Unexpected value at idx %d", idx)
-	}
-}
-
-var testCasesInt64Slice = [][]int64{
-	{1, 2, 3, 4},
-}
-
-func TestInt64Slice(t *testing.T) {
-	for idx, in := range testCasesInt64Slice {
-		if in == nil {
-			continue
-		}
-		out := Int64Slice(in)
-		assert.Len(t, out, len(in), "Unexpected len at idx %d", idx)
-		for i := range out {
-			assert.Equal(t, in[i], *(out[i]), "Unexpected value at idx %d", idx)
-		}
-
-		out2 := Int64ValSlice(out)
-		assert.Len(t, out2, len(in), "Unexpected len at idx %d", idx)
-		assert.Equal(t, in, out2, "Unexpected value at idx %d", idx)
-	}
-}
-
-var testCasesInt64ValSlice = [][]*int64{}
-
-func TestInt64ValSlice(t *testing.T) {
-	for idx, in := range testCasesInt64ValSlice {
-		if in == nil {
-			continue
-		}
-		out := Int64ValSlice(in)
-		assert.Len(t, out, len(in), "Unexpected len at idx %d", idx)
-		for i := range out {
-			if in[i] == nil {
-				assert.Empty(t, out[i], "Unexpected value at idx %d", idx)
-			} else {
-				assert.Equal(t, *(in[i]), out[i], "Unexpected value at idx %d", idx)
-			}
-		}
-
-		out2 := Int64Slice(out)
-		assert.Len(t, out2, len(in), "Unexpected len at idx %d", idx)
-		for i := range out2 {
-			if in[i] == nil {
-				assert.Empty(t, *(out2[i]), "Unexpected value at idx %d", idx)
-			} else {
-				assert.Equal(t, in[i], out2[i], "Unexpected value at idx %d", idx)
-			}
+	for _, f := range validUints {
+		_, err := StrToUint64(converter.Uint64ToStr(f))
+		if err != nil {
+			t.Errorf("Should pass for %+v but encounter error %s\n", f, err.Error())
 		}
 	}
-}
-
-var testCasesInt64Map = []map[string]int64{
-	{"a": 3, "b": 2, "c": 1},
-}
-
-func TestInt64Map(t *testing.T) {
-	for idx, in := range testCasesInt64Map {
-		if in == nil {
-			continue
+	for _, f := range invalidUints {
+		_, err := StrToUint64(f)
+		if err == nil {
+			t.Errorf("Should encounter error but pass for %+v\n", f)
 		}
-		out := Int64Map(in)
-		assert.Len(t, out, len(in), "Unexpected len at idx %d", idx)
-		for i := range out {
-			assert.Equal(t, in[i], *(out[i]), "Unexpected value at idx %d", idx)
-		}
-
-		out2 := Int64ValMap(out)
-		assert.Len(t, out2, len(in), "Unexpected len at idx %d", idx)
-		assert.Equal(t, in, out2, "Unexpected value at idx %d", idx)
 	}
 }

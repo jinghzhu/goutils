@@ -1,8 +1,10 @@
 package data
 
 import (
-	"testing"
 	"math"
+	"testing"
+
+	"github.com/jinghzhu/goutils/converter"
 )
 
 func TestInterfaceToInt64(t *testing.T) {
@@ -22,13 +24,15 @@ func TestStrToInt64(t *testing.T) {
 	invalidInts := []string{"1.233", "a", "false"}
 
 	for _, f := range validInts {
-		c, err := StrToInt64(FormatInt64(f))
-		if assert.NoError(t, err) {
-			assert.EqualValues(t, f, c)
+		_, err := StrToInt64(converter.Int64ToStr(f))
+		if err != nil {
+			t.Errorf("Should pass for %+v but got error %+v\n", f, err)
 		}
 	}
 	for _, f := range invalidInts {
 		_, err := StrToInt64(f)
-		assert.Error(t, err, "expected '"+f+"' to generate an error")
+		if err == nil {
+			t.Errorf("Should get error but pass for %+v\n", err)
+		}
 	}
 }

@@ -1,5 +1,7 @@
 package data
 
+import "strconv"
+
 // UintPointer returns a pointer to of the uint value passed in.
 func UintPointer(v uint) *uint {
 	return &v
@@ -36,4 +38,9 @@ func UintValSlice(src []*uint) []uint {
 		}
 	}
 	return dst
+}
+
+// StrToUint64 turn a string into a uint64.
+func StrToUint64(str string) (uint64, error) {
+	return strconv.ParseUint(str, 10, 64)
 }
