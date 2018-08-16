@@ -6,6 +6,11 @@ import (
 	"strconv"
 )
 
+// StrToInt64 turn a string into a int64.
+func StrToInt64(str string) (int64, error) {
+	return strconv.ParseInt(str, 10, 64)
+}
+
 // InterfaceToInt64 converts input to an integer type 64, or 0 if input is not an integer.
 func InterfaceToInt64(value interface{}) (res int64, err error) {
 	val := reflect.ValueOf(value)
