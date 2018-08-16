@@ -11,3 +11,13 @@ func StrToFloat64(str string) (float64, error) {
 
 	return res, err
 }
+
+// StrToFloat32 turn a string into a float32.
+func StrToFloat32(str string) (float32, error) {
+	f, err := strconv.ParseFloat(str, 32)
+	if err != nil {
+		return 0, err
+	}
+
+	return float32(f), nil
+}
