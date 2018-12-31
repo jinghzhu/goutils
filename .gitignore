@@ -1,6 +1,9 @@
 
 # Created by https://www.gitignore.io/api/go,git,vim,macos,linux,windows,sublimetext,visualstudiocode
 
+### Local Dev ###
+cmd/test
+
 ### Git ###
 *.orig
 
