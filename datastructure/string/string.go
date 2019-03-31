@@ -5,20 +5,51 @@ import (
 	"crypto/rand"
 	"encoding/base64"
 	"fmt"
-	"regexp"
 	"unicode/utf8"
 )
 
+// ReplaceWithRunes returns a new string. It replaces the runes in the range of given string.
+func ReplaceWithRunes(str string, replacement rune, start, end int) string {
+	if start < 0 || end >= len(str) || start > end {
+		return str
+	}
+
+	return str[:start] + string(replacement) + str[end:]
+}
+
+// ReplaceWithStr returns a new string. It replaces the string in the range of given string.
+func ReplaceWithStr(str, replacement string, start, end int) string {
+	if start < 0 || end >= len(str) || start > end {
+		return str
+	}
+
+	return str[:start] + replacement + str[end:]
+}
+
+// ReplaceWithRune returns a new string by replacing one of its element with given rune.
+func ReplaceWithRune(str string, index int, replacement rune) string {
+	if index < 0 || index >= len(str) {
+		return str
+	}
+	result := []rune(str)
+	result[index] = replacement
+
+	return string(result)
+}
+
+// ReverseStrings accepts a string array and reverses each of its element.
 func ReverseStrings(strings []string) {
 	for i, j := 0, len(strings)-1; i < j; i, j = i+1, j-1 {
 		strings[i], strings[j] = strings[j], strings[i]
 	}
 }
 
+// Reverse reverses the given string.
 func Reverse(s string) string {
 	return ReverseRange(s, 0, len(s)-1)
 }
 
+// ReverseRange reverses the given part of string.
 func ReverseRange(s string, start, end int) string {
 	if len(s) <= 1 || end <= start || end > len(s) || start < 0 || end < 0 {
 		return s
@@ -28,7 +59,7 @@ func ReverseRange(s string, start, end int) string {
 	// if replace i, j = i + 1, j - 1 with i++, j--
 	// it will throw error msg: syntax error: missing { after for clause
 	for i, j := start, end; i < j; i, j = i+1, j-1 {
-		var temp rune = sArr[i]
+		temp := sArr[i]
 		sArr[i] = sArr[j]
 		sArr[j] = temp
 	}
@@ -121,16 +152,7 @@ func GenerateToken() string {
 	return base64.URLEncoding.EncodeToString(rb)
 }
 
-func IsVersion(version string) bool {
-	versionRegeXp := "\\d+(\\.\\d+){0,2}"
-	match, err := regexp.MatchString(versionRegeXp, version)
-	if err != nil {
-		panic(err.Error())
-	}
-
-	return match
-}
-
+// Compare return 0 if they are the same string. Otherwise, return -1 if a is "smaller" than b.
 func Compare(a, b string) int {
 	if a == b {
 		return 0
@@ -241,14 +263,17 @@ func Fields(s string, sep rune) []string {
 	return strArr
 }
 
+// HasPrefix checks whether pre is the prefix of s.
 func HasPrefix(s, pre string) bool {
 	return len(s) >= len(pre) && s[0:len(pre)] == pre
 }
 
+// HasSuffix checks whether suf is the suffix of s.
 func HasSuffix(s, suf string) bool {
 	return len(s) >= len(suf) && s[len(s)-len(suf):] == suf
 }
 
+// Contain returns true if substr is the sub string of s.
 func Contain(s, substr string) bool {
 	for i := 0; i < len(s)-len(substr)+1; i++ {
 		if HasPrefix(s[i:], substr) {
@@ -331,9 +356,9 @@ func LastIndexByte(s string, b byte) int {
 // Output: Test1 !test2 Test3
 // strings.Title() output: Test1 !Test2 Test3
 func Title(s string) string {
-	var c rune = ' '
+	var c rune
 	sArr := []rune(s)
-	var sep bool = false
+	var sep bool
 	for k, v := range sArr {
 		if v == c {
 			sep = true
@@ -354,10 +379,11 @@ func Title(s string) string {
 	return string(sArr)
 }
 
+// TrimAllSpace removes all spaces in both fron and end field of given string.
 func TrimAllSpace(s string) string {
 	n := 0
 	index := 0
-	var space rune = ' '
+	var space rune
 	for _, v := range s {
 		if v == space {
 			n++
