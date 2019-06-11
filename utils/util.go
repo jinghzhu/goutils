@@ -10,6 +10,7 @@ import (
 	"time"
 )
 
+// Struct2String accepts any interface{} and return to JSON based string.
 func Struct2String(v interface{}) string {
 	result, err := json.Marshal(v)
 	if err != nil {
@@ -31,7 +32,8 @@ func PanicHandler() {
 	}
 }
 
-func GetCallerInfo(level int) (caller string, fileName string, lineNum int) {
+// GetCallerInfo returns the name of method caller and file name. It also returns the line number.
+func GetCallerInfo(level int) (caller, fileName string, lineNum int) {
 	if level < 1 || level > maxCallerLevel {
 		level = defaultCallerLevel
 	}
