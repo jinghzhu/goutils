@@ -22,14 +22,19 @@ func Struct2String(v interface{}) string {
 }
 
 // PanicHandler catches a panic and logs an error. Suppose to be called via defer.
-func PanicHandler() {
+func PanicHandler() (caller string, fileName string, lineNum int, stackTrace string, rec interface{}) {
 	buf := make([]byte, stackBuffer)
 	runtime.Stack(buf, false)
 	name, file, line := GetCallerInfo(2)
 	if r := recover(); r != nil {
+		caller, fileName, stackTrace = name, file, string(buf)
+		lineNum = line
+		rec = r
 		fmt.Printf("%s %s ln%d: PANIC Defered : %v\n", name, file, line, r)
 		fmt.Printf("%s %s ln%d: Stack Trace : %s", name, file, line, string(buf))
 	}
+
+	return caller, fileName, lineNum, stackTrace, rec
 }
 
 // GetCallerInfo returns the name of method caller and file name. It also returns the line number.
