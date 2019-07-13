@@ -94,14 +94,6 @@ func Locate(skip int) (filename string, line int) {
 	return file, line
 }
 
-// Swap is to swap the value for given position in an array.
-func Swap(data []int, i, j int) {
-	if len(data) < 2 || i < 0 || i > j || j >= len(data) {
-		return
-	}
-	data[i], data[j] = data[j], data[i]
-}
-
 // Retry will retry the given condition function with specific time interval and retry round.
 // It will return true if the condition is met. If it is timeout, it will return false. Otherwise,
 // it will return the error encountered in the retry round.
