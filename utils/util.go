@@ -10,6 +10,28 @@ import (
 	"time"
 )
 
+// IsIPv6 checks whether the input is a valid IPv6 address.
+func IsIPv6(ip string) bool {
+    ips := strings.Split(ip, ":")
+    l := len(ips)
+    if l != 8 {
+        return false
+    }
+    validStr := "0123456789ABCDEFabcdef"
+    for _, v := range ips {
+        if len(v) < 1 || len(v) > 4 {
+            return false
+        }
+        for _, x := range v {
+            if !strings.Contains(validStr, string(x)) {
+                return false
+            }
+        }
+    }
+    
+    return true
+}
+
 // IsIPv4 checks whether the stirng is a valid IPv4 address.
 func IsIPv4(ip string) bool {
 	ips := strings.Split(ip, ".")
