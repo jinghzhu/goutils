@@ -10,6 +10,16 @@ import (
 	"time"
 )
 
+// IntMax returns the max value of int32, which is 2147483647.
+func IntMax() int {
+    i := 0
+    for j := 0; j < 31; j++ {
+        i = (i << 1) | 1
+    }
+    
+    return i
+}
+
 // IsIPv6 checks whether the input is a valid IPv6 address.
 func IsIPv6(ip string) bool {
     ips := strings.Split(ip, ":")
