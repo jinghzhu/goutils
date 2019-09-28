@@ -20,6 +20,11 @@ func IntMax() int {
     return i
 }
 
+// IntMin returns the min value of int32, which is -2147483648.
+func IntMin() int {
+    return -1 * (1 << 31)
+}
+
 // IsIPv6 checks whether the input is a valid IPv6 address.
 func IsIPv6(ip string) bool {
     ips := strings.Split(ip, ":")
