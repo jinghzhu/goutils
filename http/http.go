@@ -12,6 +12,21 @@ import (
 	"strings"
 )
 
+func getDNS1123Reg() *regexp.Regexp {
+	onceDNS1123.Do(func() {
+		format := "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+		reg = regexp.MustCompile(format)
+	})
+
+	return reg
+}
+
+// Check if it is a valid DNS-1123 subdomain. It must consist of lower case alphanumeric characters,
+// '-' or '.', and must start and end with an alphanumeric character.
+func IsDNS1123(data string) bool {
+	return getDNS1123Reg().MatchString(data)
+}
+
 func IsEmail(email string) bool {
 	email = strings.TrimSpace(email)
 	errMsgRegeXp := "Error in running regular expression"
