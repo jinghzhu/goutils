@@ -7,17 +7,9 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"regexp"
 	"strings"
-	"net/url"
-)
-
-const (
-	SUCCESS_HTTP_CODE  = 0
-	HTTP_METHOD_GET    = "GET"
-	HTTP_METHOD_POST   = "POST"
-	HTTP_METHOD_DELETE = "DELETE"
-	HTTP_METHOD_PUT    = "PUT"
 )
 
 func IsEmail(email string) bool {
@@ -50,7 +42,7 @@ func IsRequestURL(rawurl string) (bool, error) {
 	if len(url.Scheme) == 0 {
 		return false, nil
 	}
-	
+
 	return true, nil
 }
 
@@ -61,7 +53,7 @@ func IsRequestURI(rawurl string) bool {
 	return err == nil
 }
 
-func ResponseToString(resp *http.Response) (string, error) {
+func RespToStr(resp *http.Response) (string, error) {
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
@@ -74,23 +66,23 @@ func ResponseToString(resp *http.Response) (string, error) {
 }
 
 func HttpGet(url, username, password string) (*http.Response, error) {
-	return Http(HTTP_METHOD_GET, url, username, password, nil)
+	return Http(http.MethodGet, url, username, password, nil)
 }
 
 func HttpPost(url, username, password string, data []byte) (*http.Response, error) {
-	return Http(HTTP_METHOD_POST, url, username, password, data)
+	return Http(http.MethodPost, url, username, password, data)
 }
 
 func HttpDelete(url, username, password string, data []byte) (*http.Response, error) {
-	return Http(HTTP_METHOD_DELETE, url, username, password, data)
+	return Http(http.MethodDelete, url, username, password, data)
 }
 
 func HttpPut(url, username, password string, data []byte) (*http.Response, error) {
-	return Http(HTTP_METHOD_PUT, url, username, password, data)
+	return Http(http.MethodPut, url, username, password, data)
 }
 
 func IsValidHttpMethod(method string) bool {
-	return strings.EqualFold(method, HTTP_METHOD_GET) || strings.EqualFold(method, HTTP_METHOD_POST) || strings.EqualFold(method, HTTP_METHOD_PUT) || strings.EqualFold(method, HTTP_METHOD_DELETE)
+	return strings.EqualFold(method, http.MethodGet) || strings.EqualFold(method, http.MethodPost) || strings.EqualFold(method, http.MethodPut) || strings.EqualFold(method, http.MethodDelete)
 }
 
 func Http(method, url, username, password string, data []byte) (*http.Response, error) {
