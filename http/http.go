@@ -12,6 +12,57 @@ import (
 	"strings"
 )
 
+// IsIPv6 checks whether the input is a valid IPv6 address.
+func IsIPv6(ip string) bool {
+	ips := strings.Split(ip, ":")
+	l := len(ips)
+	if l != 8 {
+		return false
+	}
+	validStr := "0123456789ABCDEFabcdef"
+	for _, v := range ips {
+		if len(v) < 1 || len(v) > 4 {
+			return false
+		}
+		for _, x := range v {
+			if !strings.Contains(validStr, string(x)) {
+				return false
+			}
+		}
+	}
+
+	return true
+}
+
+// IsIPv4 checks whether the string is a valid IPv4 address.
+func IsIPv4(ip string) bool {
+	ips := strings.Split(ip, ".")
+	l := len(ips)
+	if l != 4 {
+		return false
+	}
+	for _, v := range ips {
+		lv, tmp := len(v), 0
+		if lv > 3 || lv < 1 {
+			return false
+		}
+		if v[0] == '0' && lv > 1 {
+			return false
+		}
+		for _, x := range v {
+			if x < '0' || x > '9' {
+				return false
+			}
+			tmp = 10*tmp + int(x-'0')
+		}
+		if tmp > 255 {
+			return false
+		}
+	}
+
+	return true
+}
+
 func getDNS1123Reg() *regexp.Regexp {
 	onceDNS1123.Do(func() {
 		format := "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
