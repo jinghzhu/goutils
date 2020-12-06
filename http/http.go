@@ -72,12 +72,13 @@ func getDNS1123Reg() *regexp.Regexp {
 	return reg
 }
 
-// Check if it is a valid DNS-1123 subdomain. It must consist of lower case alphanumeric characters,
+// IsDNS1123 checks if it is a valid DNS-1123 subdomain. It must consist of lower case alphanumeric characters,
 // '-' or '.', and must start and end with an alphanumeric character.
 func IsDNS1123(data string) bool {
 	return getDNS1123Reg().MatchString(data)
 }
 
+// IsEmail validates input is a valid email address or not.
 func IsEmail(email string) bool {
 	email = strings.TrimSpace(email)
 	errMsgRegeXp := "Error in running regular expression"
@@ -89,6 +90,7 @@ func IsEmail(email string) bool {
 	return match
 }
 
+// IsURL validates input is a valid url address or not.
 func IsURL(url string) bool {
 	urlRegeXp := "^((http|https|ftp)\\://)?([a-zA-Z0-9\\.\\-]+(\\:[a-zA-Z0-9\\.&amp;\\$\\-]+)*@)?((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|([a-zA-Z0-9\\-]+\\.)*[a-zA-Z0-9\\-]+\\.[a-zA-Z]{2,4})(\\:[0-9]+)?(/[^/][a-zA-Z0-9\\.\\,\\?\\'\\/\\+&amp;\\$#\\=~_\\-@]*)*$"
 	match, err := regexp.MatchString(urlRegeXp, url)
@@ -131,14 +133,17 @@ func RespToStr(resp *http.Response) (string, error) {
 	}
 }
 
+// HttpGet performs HTTP GET with given URL, user name and password.
 func HttpGet(url, username, password string) (*http.Response, error) {
 	return Http(http.MethodGet, url, username, password, nil)
 }
 
+// HttpPods performs HTTP POST with given URL, user name, password and data.
 func HttpPost(url, username, password string, data []byte) (*http.Response, error) {
 	return Http(http.MethodPost, url, username, password, data)
 }
 
+// HttpDelete performs HTTP DELTE with given URL, user name, password and data.
 func HttpDelete(url, username, password string, data []byte) (*http.Response, error) {
 	return Http(http.MethodDelete, url, username, password, data)
 }
